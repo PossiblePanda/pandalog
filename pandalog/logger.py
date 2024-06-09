@@ -1,24 +1,33 @@
-from math import radians, cos, sin, asin, sqrt
+import os
+import datetime
 
-def haversine(lon1: float, lat1: float, lon2: float, lat2: float) -> float:
-    """
-    Calculate the great circle distance between two points on the 
-    earth (specified in decimal degrees), returns the distance in
-    kilometers.
-    All arguments must be of equal length.
-    :param lon1: longitude of first place
-    :param lat1: latitude of first place
-    :param lon2: longitude of second place
-    :param lat2: latitude of second place
-    :return: distance in kilometers between the two sets of coordinates
-    """
-    # Convert decimal degrees to radians
-    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+log_location: str = "logs"
 
-    # Haversine formula
-    dlon = lon2 - lon1
-    dlat = lat2 - lat1
-    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-    c = 2 * asin(sqrt(a))
-    r = 6371 # Radius of earth in kilometers
-    return c * r
+def get_timestamp(include_seconds: bool = False) -> str:
+    format = "%y-%m-%d-%H-%M-%S" if include_seconds else "%y-%m-%d-%H-%M"
+    return datetime.datetime.now().strftime(format)
+
+def log(message: str, source: str) -> None:
+    print(f"[{source}] {message}")
+
+    if not log_location:
+        return
+
+    os.makedirs(log_location, exist_ok=True)  # Create the directory if it doesn't exist
+
+    log_file_path = os.path.join(log_location, "latest.txt")
+    if not os.path.exists(log_file_path):
+        with open(log_file_path, "a") as f:
+            f.write(f"[{source}] {message}\n")
+        return
+
+    timestamp = get_timestamp()
+    new_file_path = os.path.join(log_location, f"{timestamp}.txt")
+    if os.path.exists(new_file_path):
+        timestamp = get_timestamp(include_seconds=True)
+        new_file_path = os.path.join(log_location, f"{timestamp}.txt")
+
+    os.rename(log_file_path, new_file_path)
+
+    with open(log_file_path, "a") as f:
+        f.write(f"[{source}] {message}\n")
