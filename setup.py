@@ -10,10 +10,6 @@ setup(
     version='1.0.0',
     description='A simple library for logging in Python',
     author='Possible Panda',
-	install_requires=[],
-	setup_requires=['pytest-runner'],
-	tests_require=['pytest'],
-	test_suite='tests',
 	classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
