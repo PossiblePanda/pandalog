@@ -1,5 +1,9 @@
 from setuptools import find_packages, setup
 
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
+
 setup(
     name='pandalog',
     packages=find_packages(include=['pandalog']),
@@ -10,4 +14,14 @@ setup(
 	setup_requires=['pytest-runner'],
 	tests_require=['pytest'],
 	test_suite='tests',
+	classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3.12',
+    ],
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/PossiblePanda/pandalog",
+    install_requires=["colorama"],
 )
