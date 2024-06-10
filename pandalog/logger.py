@@ -29,9 +29,12 @@ def get_timestamp(include_seconds: bool = False) -> str:
     format = "%y-%m-%d-%H-%M-%S" if include_seconds else "%y-%m-%d-%H-%M"
     return datetime.datetime.now().strftime(format)
 
+def get_timestamp_short() -> str:
+    return datetime.datetime.now().strftime("%H:%M:%S")
+
 def log(message: str, source: str, level: LogLevel) -> None:
-    print(f"{levelColors[level]} [{level.name}] [{source}] {message}{Fore.RESET}\n")
-    log_buffer.append(f"[{level.name}] [{source}] {message}\n")
+    print(f"{levelColors[level]} [{get_timestamp_short()}] [{level.name}] [{source}] {message}{Fore.RESET}\n")
+    log_buffer.append(f"[{get_timestamp_short()}] [{level.name}] [{source}] {message}\n")
 
 def logInfo(message: str, source: str) -> None:
     log(message, source, LogLevel.INFO)
@@ -41,6 +44,12 @@ def logWarning(message: str, source: str) -> None:
 
 def logError(message: str, source: str) -> None:
     log(message, source, LogLevel.ERROR)
+
+def logCritical(message: str, source: str) -> None:
+	log(message, source, LogLevel.CRITICAL)
+
+def logFatal(message: str, source: str) -> None:
+	log(message, source, LogLevel.FATAL)
 
 def flush_logs():
     if log_location and log_buffer:
