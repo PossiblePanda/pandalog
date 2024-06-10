@@ -12,8 +12,8 @@ if "-" in pandalog_version:
     v,i,s = pandalog_version.split("-")
     pandalog_version = v + "+" + i + ".git." + s
 
-assert "-" not in pandalog_version
-assert "." in pandalog_version
+assert "-" not in pandalog_version, "Invalid version string: %s" % pandalog_version
+assert "." in pandalog_version, "Invalid version string: %s" % pandalog_version
 
 assert os.path.isfile("cf_remote/version.py")
 with open("cf_remote/VERSION", "w", encoding="utf-8") as fh:
