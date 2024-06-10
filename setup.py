@@ -15,7 +15,6 @@ if "-" in pandalog_version:
 assert "-" not in pandalog_version, "Invalid version string: %s" % pandalog_version
 assert "." in pandalog_version, "Invalid version string: %s" % pandalog_version
 
-assert os.path.isfile("pandalog/version.py"), "version.py not found"
 with open("pandalog/VERSION", "w", encoding="utf-8") as fh:
     fh.write("%s\n" % pandalog_version)
 
