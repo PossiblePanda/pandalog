@@ -1,8 +1,23 @@
 from setuptools import find_packages, setup
 import subprocess
+import os
 
-cf_remote_version = subprocess.run(["git", "describe", "--tags"], stdout=subprocess.PIPE).stdout.decode("utf-8").strip()
-assert "." in cf_remote_version, "Version number is not in the correct format"
+pandalog_version = (
+    subprocess.run(["git", "describe", "--tags"], stdout=subprocess.PIPE)
+    .stdout.decode("utf-8")
+    .strip()
+)
+
+if "-" in pandalog_version:
+    v,i,s = pandalog_version.split("-")
+    pandalog_version = v + "+" + i + ".git." + s
+
+assert "-" not in pandalog_version
+assert "." in pandalog_version
+
+assert os.path.isfile("cf_remote/version.py")
+with open("cf_remote/VERSION", "w", encoding="utf-8") as fh:
+    fh.write("%s\n" % pandalog_version)
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -11,7 +26,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name='pandalog',
     packages=find_packages(include=['pandalog']),
-    version=cf_remote_version,
+    version=pandalog_version,
     description='A simple library for logging in Python',
     author='Possible Panda',
 	classifiers=[
@@ -20,6 +35,8 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.12',
     ],
+    package_data={"pandalog": ["VERSION"]},
+    include_package_data=True,
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/PossiblePanda/pandalog",
