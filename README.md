@@ -15,20 +15,18 @@ pip install pandalog
 Here's a basic example of how to use Pandalog:
 
 ```python
-from pandalog import log, LogLevel
+from pandalog import logger
 
-# Log an informational message
-
-log("This is an informational message", LogLevel.INFO)
-
-# Log a warning
-
-log("This is a warning", LogLevel.WARNING)
-
-# Log an error
-
-log("This is an error", LogLevel.ERROR)
+logger.logInfo("This is a message", "TEST")
+logger.logWarning("This is a warning", "TEST")
+logger.logError("This is an error", "TEST")
+logger.logCritical("This is a critical error", "TEST")
+logger.logFatal("This is a fatal error", "TEST")
 ```
+
+Output:
+
+![Log Examples](images/log_examples.png)
 
 ## Features
 
