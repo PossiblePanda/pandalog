@@ -1,3 +1,5 @@
 from pandalog import logger
 
-logger.log("Hello, world!", "TESTS")
+logger.logInfo("This is a message", "TEST")
+logger.logWarning("This is a warning", "TEST")
+logger.logError("This is an error", "TEST")
